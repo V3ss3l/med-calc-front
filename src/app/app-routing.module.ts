@@ -9,7 +9,7 @@ const routes: Routes = [
   {path: 'sofa', component: SofaCalcComponent},
   {path: 'heart', component: HeartCalcComponent},
   {path: 'child-phew', component: ChildPhewCalcComponent},
-  {path: '',redirectTo: '/home', pathMatch: 'full'}
+  {path: '', redirectTo: '/', pathMatch: 'full'}
 ]
 
 @NgModule({

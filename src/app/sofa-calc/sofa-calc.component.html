@@ -1,32 +1,59 @@
-<mat-card>
+<mat-card class="calc-form">
   <mat-card-title>Критерий SOFA</mat-card-title>
   <mat-card-content>
-    <form #f="ngForm">
+    <form [formGroup]="sofaCalcForm" (ngSubmit)="submit()">
       <mat-form-field>
         <mat-label>paO2, мм рт. ст.</mat-label>
-        <input matInput placeholder="35" type="number">
+        <input matInput placeholder="100" type="number" min="0" max="1000" formControlName="paO2">
       </mat-form-field>
       <mat-form-field>
         <mat-label>FiO2, %</mat-label>
-        <input matInput placeholder="35" type="number">
+        <input matInput placeholder="50" type="number" min="0" max="1000" formControlName="fio2">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Тромбоциты, кл.*109/л</mat-label>
-        <input matInput placeholder="35" type="number">
+        <input matInput placeholder="125" type="number" min="0" max="1000" formControlName="platelets">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Билирубин, мкмоль/л</mat-label>
-        <input matInput placeholder="35" type="number">
+        <input matInput placeholder="25" type="number" min="0" max="1000" formControlName="bilirubin">
       </mat-form-field>
       <div>
         <mat-label>Оценка почечной функции</mat-label>
-        <mat-slide-toggle [(ngModel)]="isChecked" [ngModelOptions] = "{standalone: true}" (click)="SlideToggleClick()">{{sliderWord}}</mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isChecked" [ngModelOptions] = "{standalone: true}" (click)="slideToggleClick()">{{sliderWord}}</mat-slide-toggle>
       </div>
       <mat-form-field>
         <mat-label>{{liverString}}</mat-label>
-        <input matInput placeholder="35" type="number">
+        <input matInput placeholder="170" type="number" min="0" max="1000" formControlName="liver">
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Открывание глаз</mat-label>
+        <mat-select formControlName="eyes">
+          <mat-option *ngFor="let option of eyesOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Речевая реакция</mat-label>
+        <mat-select formControlName="speech">
+          <mat-option *ngFor="let option of speechOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Двигательная реакция</mat-label>
+        <mat-select formControlName="move">
+          <mat-option *ngFor="let option of moveOptions" [value]="option">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Уровень гипотензии</mat-label>
+        <mat-select formControlName="hypotensia">
+          <mat-option *ngFor="let option of hypotensiaOptions" [value]="hypotensiaOptions.indexOf(option)">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-label>Инфекция</mat-label>
+      <mat-slide-toggle></mat-slide-toggle>
       <button mat-raised-button type="submit">Submit</button>
+      <button mat-raised-button type="clear" (click)="clear()">Clear</button>
     </form>
   </mat-card-content>
 </mat-card>
