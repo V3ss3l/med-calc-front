@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title>Критерий SOFA</mat-card-title>
+  <mat-card-content>
+    <form #f="ngForm">
+      <mat-form-field>
+        <mat-label>paO2, мм рт. ст.</mat-label>
+        <input matInput placeholder="35" type="number">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>FiO2, %</mat-label>
+        <input matInput placeholder="35" type="number">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Тромбоциты, кл.*109/л</mat-label>
+        <input matInput placeholder="35" type="number">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Билирубин, мкмоль/л</mat-label>
+        <input matInput placeholder="35" type="number">
+      </mat-form-field>
+      <div>
+        <mat-label>Оценка почечной функции</mat-label>
+        <mat-slide-toggle [(ngModel)]="isChecked" [ngModelOptions] = "{standalone: true}" (click)="SlideToggleClick()">{{sliderWord}}</mat-slide-toggle>
+      </div>
+      <mat-form-field>
+        <mat-label>{{liverString}}</mat-label>
+        <input matInput placeholder="35" type="number">
+      </mat-form-field>
+      <button mat-raised-button type="submit">Submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
