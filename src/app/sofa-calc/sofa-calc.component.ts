@@ -18,8 +18,8 @@ export class SofaCalcComponent {
   speechOptions: string[];
   moveOptions: string[];
   hypotensiaOptions: string[];
-  calcResult!: ResultEntity;
-  infoResult!: InfoEntity;
+  calcResult: ResultEntity = new ResultEntity();
+  infoResult: InfoEntity = new InfoEntity();
   sofaCalcForm : FormGroup = new FormGroup({
     "paO2": new FormControl(),
     "fio2": new FormControl(),

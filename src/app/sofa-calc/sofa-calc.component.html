@@ -18,8 +18,8 @@
         <mat-label>Билирубин, мкмоль/л</mat-label>
         <input matInput placeholder="25" type="number" min="0" max="1000" formControlName="bilirubin">
       </mat-form-field>
-      <div>
-        <mat-label>Оценка почечной функции</mat-label>
+      <div class="form-slider">
+        <mat-label class="slider-label">Оценка почечной функции</mat-label>
         <mat-slide-toggle [(ngModel)]="isChecked" [ngModelOptions] = "{standalone: true}" (click)="slideToggleClick()">{{sliderWord}}</mat-slide-toggle>
       </div>
       <mat-form-field>
@@ -50,8 +50,10 @@
           <mat-option *ngFor="let option of hypotensiaOptions" [value]="hypotensiaOptions.indexOf(option)">{{option}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-label>Инфекция</mat-label>
-      <mat-slide-toggle></mat-slide-toggle>
+      <div class="form-slider">
+        <mat-label class="slider-label">Инфекция</mat-label>
+        <mat-slide-toggle></mat-slide-toggle>
+      </div>
       <button mat-raised-button type="submit">Submit</button>
       <button mat-raised-button type="clear" (click)="clear()">Clear</button>
     </form>
