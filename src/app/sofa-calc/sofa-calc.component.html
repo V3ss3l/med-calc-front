@@ -1,5 +1,5 @@
 <mat-card class="calc-form">
-  <mat-card-title>Критерий SOFA</mat-card-title>
+  <mat-card-title>Критерий SOFA <img src="assets/sofa.png"></mat-card-title>
   <mat-card-content>
     <form [formGroup]="sofaCalcForm" (ngSubmit)="submit()">
       <mat-form-field>
@@ -52,11 +52,22 @@
       </mat-form-field>
       <div class="form-slider">
         <mat-label class="slider-label">Инфекция</mat-label>
-        <mat-slide-toggle></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="isInfectionChecked" [ngModelOptions] = "{standalone: true}"></mat-slide-toggle>
       </div>
-      <button mat-raised-button type="submit">Submit</button>
-      <button mat-raised-button type="clear" (click)="clear()">Clear</button>
+      <button mat-raised-button class="form-button" type="submit">Рассчитать</button>
     </form>
+    <button mat-raised-button class="form-button" (click)="clear()">Очистить</button>
   </mat-card-content>
+  <mat-card-footer>
+    <button mat-flat-button class="form-button" (click)="buttonClickGetInfo()">О калькуляторе</button>
+  </mat-card-footer>
 </mat-card>
 
+<span class="example-spacer"></span>
+
+<div *ngIf="calcResult!==undefined" class="result-container">
+  <h1>Результат вычисления</h1>
+  <h1><b>{{calcResult.result}} {{resultNoun}}</b></h1>
+  <h2>{{calcResult.info}}</h2>
+  <h2 *ngIf="isInfectionChecked">{{infectionString}}</h2>
+</div>

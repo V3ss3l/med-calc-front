@@ -1,1 +1,51 @@
-<p>child-phew-calc works!</p>
+<mat-card class="calc-form">
+  <mat-card-title>Критерий Чайлд Пью <img src="assets/childpew.png"></mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="childPhewCalcForm" (ngSubmit)="submit()">
+      <mat-form-field>
+      <mat-label>Билирубин (общий), мкмоль/л</mat-label>
+        <mat-select formControlName="bilirubin">
+          <mat-option *ngFor="let option of biliOptions" [value]="biliOptions.indexOf(option) + 1">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Альбумин, г/л</mat-label>
+        <mat-select formControlName="albumin">
+          <mat-option *ngFor="let option of albuminOptions" [value]="albuminOptions.indexOf(option) + 1">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>МНО</mat-label>
+        <mat-select formControlName="mho">
+          <mat-option *ngFor="let option of mhoOptions" [value]="mhoOptions.indexOf(option) + 1">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Асцит</mat-label>
+        <mat-select formControlName="ascit">
+          <mat-option *ngFor="let option of ascitOptions" [value]="ascitOptions.indexOf(option) + 1">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Энцефалопатия</mat-label>
+        <mat-select formControlName="enceph">
+          <mat-option *ngFor="let option of encephalOptions" [value]="encephalOptions.indexOf(option) + 1">{{option}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button class="form-button" type="submit">Рассчитать</button>
+    </form>
+    <button mat-raised-button class="form-button" (click)="clear()">Очистить</button>
+  </mat-card-content>
+  <mat-card-footer>
+    <button mat-flat-button class="form-button" (click)="buttonClickGetInfo()">О калькуляторе</button>
+  </mat-card-footer>
+</mat-card>
+
+<span class="example-spacer"></span>
+
+<div *ngIf="calcResult!==undefined" class="result-container">
+  <h1>Результат вычисления</h1>
+  <h1><b>{{calcResult.result}} {{resultNoun}}</b></h1>
+  <h2>{{calcResult.info}}</h2>
+  <h2 *ngIf="calcResult.addInfo != null">{{calcResult.addInfo}}</h2>
+</div>

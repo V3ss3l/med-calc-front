@@ -20,6 +20,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSelectModule} from "@angular/material/select";
 import { HttpClientModule } from '@angular/common/http';
 import {CalcService} from "./calc.service";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {CalcService} from "./calc.service";
     MatSlideToggleModule,
     MatSelectModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [CalcService],
   bootstrap: [AppComponent]

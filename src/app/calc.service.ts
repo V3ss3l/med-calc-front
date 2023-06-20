@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {ResultEntity} from "./models/result.entity";
 import {InfoEntity} from "./models/info.entity";
 import {SofaParams} from "./models/sofa.params";
+import {HeartParams} from "./models/heart.params";
+import {ChildPhewParams} from "./models/child-phew.params";
 
 @Injectable({
   providedIn: 'root'
@@ -32,13 +34,19 @@ export class CalcService {
     return this.http.post<ResultEntity>(uri, params);
   }
 
-  calculateHeart(params: SofaParams): Observable<ResultEntity>{
+  calculateHeart(params: HeartParams): Observable<ResultEntity>{
     const uri = `http://localhost:8081/calculator/heart`;
     return this.http.post<ResultEntity>(uri, params);
   }
 
-  calculateChildPhew(params: SofaParams): Observable<ResultEntity>{
+  calculateChildPhew(params: ChildPhewParams): Observable<ResultEntity>{
     const uri = `http://localhost:8081/calculator/child-phew`;
     return this.http.post<ResultEntity>(uri, params);
+  }
+
+  configNoun(result: number): string{
+    if(result === 0 || result >= 5) return 'баллов';
+    else if(result > 0 && result < 5) return 'балла';
+    else return '';
   }
 }

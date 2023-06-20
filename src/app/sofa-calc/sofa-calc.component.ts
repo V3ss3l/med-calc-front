@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SofaParams} from "../models/sofa.params";
 import {CalcService} from "../calc.service";
 import {ResultEntity} from "../models/result.entity";
 import {InfoEntity} from "../models/info.entity";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-sofa-calc',
@@ -12,27 +13,21 @@ import {InfoEntity} from "../models/info.entity";
 })
 export class SofaCalcComponent {
   isChecked: boolean = true;
+  isInfectionChecked: boolean = false;
   sliderWord = "Креатинин";
   liverString = "Креатинин крови, мкмоль/л";
+  infectionString = "Увеличение значения SOFA по сравнению с предыдущим на 2 и более баллов плюс наличие инфекции - клинические критерии СЕПСИСА";
+  resultNoun!: string;
   eyesOptions: string[];
   speechOptions: string[];
   moveOptions: string[];
   hypotensiaOptions: string[];
-  calcResult: ResultEntity = new ResultEntity();
-  infoResult: InfoEntity = new InfoEntity();
-  sofaCalcForm : FormGroup = new FormGroup({
-    "paO2": new FormControl(),
-    "fio2": new FormControl(),
-    "platelets": new FormControl(),
-    "bilirubin": new FormControl(),
-    "liver": new FormControl(),
-    "eyes": new FormControl(),
-    "speech": new FormControl(),
-    "move": new FormControl(),
-    "hypotensia": new FormControl(),
-  });
+  calcResult?: ResultEntity;
+  infoResult!: InfoEntity;
+  sofaCalcForm!: FormGroup;
 
-  constructor(private service: CalcService) {
+
+  constructor(private _service: CalcService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
     this.eyesOptions = ['Произвольное', 'Реакция на голос', 'Реакция на боль', 'Отсутствует'];
     this.speechOptions = ['Пациент ориентирован, быстрый и правильный ответ на заданный вопрос', 'Пациент дезориентирован, спутанная речь',
       'Словесная окрошка, ответ по смыслу не соответствует вопросу', 'Нечленораздельный звуки в ответ на заданный вопрос',
@@ -42,6 +37,20 @@ export class SofaCalcComponent {
       'Патологическое разгибание в ответ на болевое раздражение', 'Отсутствие движений'];
     this.hypotensiaOptions = ['Нет', 'Среднее АД < 70 мм. рт. ст.', 'Вазопрессоры, дофамин <= 5 мкг/кг/мин или добутамин в любой дозе',
       'Вазопрессоры, дофамин > 5 мкг/кг/мин или эпи- норэпинефрин <= 0.1 мкг/кг/мин', 'Вазопрессоры, дофамин > 15 мкг/кг/мин или эпи- норэпинефрин > 0.1 мкг/кг/мин'];
+  }
+
+  ngOnInit(){
+    this.sofaCalcForm = this._formBuilder.group({
+      "paO2": new FormControl(Validators.required),
+      "fio2": new FormControl(Validators.required),
+      "platelets": new FormControl(Validators.required),
+      "bilirubin": new FormControl(Validators.required),
+      "liver": new FormControl(Validators.required),
+      "eyes": new FormControl(),
+      "speech": new FormControl(),
+      "move": new FormControl(),
+      "hypotensia": new FormControl(),
+  });
   }
 
   slideToggleClick() {
@@ -59,8 +68,16 @@ export class SofaCalcComponent {
     this.calculateScore();
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
   getSofaInfo(){
-    this.service.getSofaInfo().subscribe(result => this.infoResult = result );
+    this._service.getSofaInfo().subscribe(result => {
+      this.infoResult = new InfoEntity();
+      this.infoResult.info = result.info;
+      this.openSnackBar(this.infoResult.info, 'OK');
+    } );
     console.log(this.infoResult);
   }
 
@@ -75,13 +92,22 @@ export class SofaCalcComponent {
     params.gcs = this.calculateComaGlasgow();
     params.hypotensia = this.sofaCalcForm.value['hypotensia'];
     console.log(params);
-    this.calcResult = new ResultEntity();
-    this.service.calculateSofa(params).subscribe(result => {
+    this._service.calculateSofa(params).subscribe(result => {
+      console.log(result);
+      if(result === null){
+        this.openSnackBar("Проверьте правильность введенных данных", "ОК");
+        return;
+      }
+      this.calcResult = new ResultEntity();
       this.calcResult.result = result.result;
+      console.log(this.calcResult.result);
       this.calcResult.info = result.info;
+      console.log(this.calcResult.info);
       this.calcResult.addInfo = result.addInfo;
+      console.log(this.calcResult.addInfo);
+      this.resultNoun = this._service.configNoun(this.calcResult.result);
     });
-    console.log(this.calcResult.info);
+    console.log(this.calcResult);
   }
 
   calculateComaGlasgow(): number{
@@ -109,7 +135,12 @@ export class SofaCalcComponent {
     else return 4;
   }
 
-  clear(){
+  buttonClickGetInfo(){
+    this.getSofaInfo();
+  }
 
+  clear(){
+    this.sofaCalcForm.reset();
+    this.calcResult = undefined;
   }
 }
