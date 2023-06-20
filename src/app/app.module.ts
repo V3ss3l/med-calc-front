@@ -21,6 +21,7 @@ import {MatSelectModule} from "@angular/material/select";
 import { HttpClientModule } from '@angular/common/http';
 import {CalcService} from "./calc.service";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatSelectModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRadioModule
   ],
   providers: [CalcService],
   bootstrap: [AppComponent]

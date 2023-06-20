@@ -1,1 +1,49 @@
-<p>heart-calc works!</p>
+<mat-card class="calc-form">
+  <mat-card-title>Критерий HEART <img src="assets/heart.png"></mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="heartCalcForm" (ngSubmit)="submit()">
+      <mat-form-field>
+        <mat-label>Возраст, лет</mat-label>
+        <input matInput placeholder="27" type="number" min="21" max="100" formControlName="age">
+      </mat-form-field>
+        <mat-label>Анамнез</mat-label>
+        <mat-radio-group class="example-radio-group" formControlName="anamnez">
+          <mat-radio-button *ngFor="let option of anamnezOptions" [value]="anamnezOptions.indexOf(option)">
+            {{option}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-label>ЭКГ</mat-label>
+        <mat-radio-group class="example-radio-group" formControlName="ecg">
+          <mat-radio-button *ngFor="let option of ecgOptions" [value]="ecgOptions.indexOf(option)">
+            {{option}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-label>Факторы риска</mat-label>
+        <mat-radio-group class="example-radio-group" formControlName="risk">
+          <mat-radio-button *ngFor="let option of riskOptions" [value]="riskOptions.indexOf(option)">
+            {{option}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-label>Исходный тропонин</mat-label>
+        <mat-radio-group class="example-radio-group" formControlName="troponin">
+          <mat-radio-button *ngFor="let option of troponinOptions" [value]="troponinOptions.indexOf(option)">
+            {{option}}
+          </mat-radio-button>
+        </mat-radio-group>
+      <button mat-raised-button class="form-button" type="submit">Рассчитать</button>
+    </form>
+    <button mat-raised-button class="form-button" (click)="clear()">Очистить</button>
+  </mat-card-content>
+  <mat-card-footer>
+    <button mat-flat-button class="form-button" (click)="buttonClickGetInfo()">О калькуляторе</button>
+  </mat-card-footer>
+</mat-card>
+
+<span class="example-spacer"></span>
+
+<div *ngIf="calcResult!==undefined" class="result-container">
+  <h1>Результат вычисления</h1>
+  <h1><b>{{calcResult.result}} {{resultNoun}}</b></h1>
+  <h2>{{calcResult.info}}</h2>
+  <h2 *ngIf="calcResult.addInfo != null">{{calcResult.addInfo}}</h2>
+</div>

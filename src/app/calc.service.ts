@@ -45,8 +45,9 @@ export class CalcService {
   }
 
   configNoun(result: number): string{
+    if(result === 1) return 'балл';
     if(result === 0 || result >= 5) return 'баллов';
-    else if(result > 0 && result < 5) return 'балла';
-    else return '';
+    if(result > 0 && result < 5) return 'балла';
+    return '';
   }
 }
