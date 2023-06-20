@@ -2,29 +2,33 @@
   <mat-card-title>Критерий HEART <img src="assets/heart.png"></mat-card-title>
   <mat-card-content>
     <form [formGroup]="heartCalcForm" (ngSubmit)="submit()">
-      <mat-form-field>
-        <mat-label>Возраст, лет</mat-label>
+      <mat-form-field style="width: 300px">
+        <mat-label><b>Возраст, лет</b></mat-label>
         <input matInput placeholder="27" type="number" min="21" max="100" formControlName="age">
       </mat-form-field>
-        <mat-label>Анамнез</mat-label>
+        <mat-label style="display: flex"><b>Анамнез</b></mat-label>
+        <span class="form-description">Боль в груди, сдавливающая, иррадиация в челюсть/левое плечо/руку, продолжительность 5-15 мин, причина: физическая нагрузка, холод, стресс, повышение перспирации, тошнота/рвота, положительная реакция на нитраты в течение нескольких минут, подтверждение симптомов пациентом. Низкий риск: хорошо локализованная боль, не связанная с физической нагрузкой, отсутствие повышенного потоотделения, нет рвоты/тошноты, воспроизводимость при пальпации</span>
         <mat-radio-group class="example-radio-group" formControlName="anamnez">
           <mat-radio-button *ngFor="let option of anamnezOptions" [value]="anamnezOptions.indexOf(option)">
             {{option}}
           </mat-radio-button>
         </mat-radio-group>
-        <mat-label>ЭКГ</mat-label>
+        <mat-label><b>ЭКГ</b></mat-label>
+        <span class="form-description">1 балл: нет отклонения сегмента ST, блокада ЛНПГ, гипертрофия ЛЖ, нарушения реполяризации (дигоксин);
+2 балла: отклонение ST по другим причинам</span>
         <mat-radio-group class="example-radio-group" formControlName="ecg">
           <mat-radio-button *ngFor="let option of ecgOptions" [value]="ecgOptions.indexOf(option)">
             {{option}}
           </mat-radio-button>
         </mat-radio-group>
-        <mat-label>Факторы риска</mat-label>
+        <mat-label><b>Факторы риска</b></mat-label>
+        <span class="form-description">Гипертензия, гиперхолестеринемия, СД, ожирение (ИМТ > 30 кг/м2), курение (сейчас или ≤ 3 мес. назад), семейный анамнез (родитель или родной брат/сестра младше 65 лет с ССЗ), предшествующие: инфаркт миокарда, чрескожное коронарное вмешательство/шунтирование коронарной артерии, ТИА/ОНМК, заболевание периферических артерий)</span>
         <mat-radio-group class="example-radio-group" formControlName="risk">
           <mat-radio-button *ngFor="let option of riskOptions" [value]="riskOptions.indexOf(option)">
             {{option}}
           </mat-radio-button>
         </mat-radio-group>
-        <mat-label>Исходный тропонин</mat-label>
+        <mat-label><b>Исходный тропонин</b></mat-label>
         <mat-radio-group class="example-radio-group" formControlName="troponin">
           <mat-radio-button *ngFor="let option of troponinOptions" [value]="troponinOptions.indexOf(option)">
             {{option}}
