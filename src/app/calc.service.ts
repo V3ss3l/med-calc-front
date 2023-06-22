@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {catchError, Observable, throwError} from "rxjs";
 import {ResultEntity} from "./models/result.entity";
 import {InfoEntity} from "./models/info.entity";
 import {SofaParams} from "./models/sofa.params";
@@ -31,7 +31,7 @@ export class CalcService {
 
   calculateSofa(params: SofaParams): Observable<ResultEntity>{
     const uri = "http://localhost:8081/calculator/sofa";
-    return this.http.post<ResultEntity>(uri, params);
+    return this.http.post<ResultEntity>(uri, params).pipe(catchError(this.handleError));
   }
 
   calculateHeart(params: HeartParams): Observable<ResultEntity>{
@@ -49,5 +49,19 @@ export class CalcService {
     if(result === 0 || result >= 5) return 'баллов';
     if(result > 0 && result < 5) return 'балла';
     return '';
+  }
+  handleError(error:any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(() => {
+      return errorMessage;
+    });
   }
 }

@@ -94,10 +94,6 @@ export class SofaCalcComponent {
     console.log(params);
     this._service.calculateSofa(params).subscribe(result => {
       console.log(result);
-      if(result === null){
-        this.openSnackBar("Проверьте правильность введенных данных", "ОК");
-        return;
-      }
       this.calcResult = new ResultEntity();
       this.calcResult.result = result.result;
       console.log(this.calcResult.result);
